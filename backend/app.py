@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 import joblib
 import pandas as pd
 
 # === Setup ===
 app = Flask(__name__)
-CORS(app)
-model = joblib.load("../models/logreg_model.pkl")
-scaler = joblib.load("../models/scaler.pkl")
-
-
+model = joblib.load("logreg_model.pkl")
+scaler = joblib.load("scaler.pkl")
 
 CONFERENCES = {
     "East": {"ATL", "BKN", "BOS", "CHA", "CHI", "CLE", "DET", "IND", "MIA", "MIL", "NYK", "ORL", "PHI", "TOR", "WAS"},
