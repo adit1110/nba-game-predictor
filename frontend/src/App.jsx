@@ -22,6 +22,19 @@ function App() {
     UTA: "1610612762", WAS: "1610612764"
   };
   
+
+  const teamNameMap = {
+    ATL: "Atlanta Hawks", BKN: "Brooklyn Nets", BOS: "Boston Celtics", CHA: "Charlotte Hornets",
+    CHI: "Chicago Bulls", CLE: "Cleveland Cavaliers", DAL: "Dallas Mavericks", DEN: "Denver Nuggets",
+    DET: "Detroit Pistons", GSW: "Golden State Warriors", HOU: "Houston Rockets", IND: "Indiana Pacers",
+    LAC: "LA Clippers", LAL: "Los Angeles Lakers", MEM: "Memphis Grizzlies", MIA: "Miami Heat",
+    MIL: "Milwaukee Bucks", MIN: "Minnesota Timberwolves", NOP: "New Orleans Pelicans", NYK: "New York Knicks",
+    OKC: "Oklahoma City Thunder", ORL: "Orlando Magic", PHI: "Philadelphia 76ers", PHX: "Phoenix Suns",
+    POR: "Portland Trail Blazers", SAC: "Sacramento Kings", SAS: "San Antonio Spurs", TOR: "Toronto Raptors",
+    UTA: "Utah Jazz", WAS: "Washington Wizards"
+  };
+  
+  
   const handlePredict = async () => {
     if (!homeTeam || !awayTeam || homeTeam === awayTeam) {
       alert("Please select two different teams.");
@@ -29,7 +42,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/predict', {
+      const response = await fetch('http://localhost:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -118,8 +131,10 @@ function App() {
         {/* Result Display */}
         {result && (
           <div className="bg-blue-50 p-4 rounded shadow text-blue-800 font-medium mt-6">
-            <h2 className="text-xl mb-2">Prediction Result</h2>
-            <p className="text-lg">{result.winner}</p>
+            <h2 className="text-xl mb-2">
+            🏆 {result.winner === "Home Wins" ? teamNameMap[homeTeam] : teamNameMap[awayTeam]} will win
+            </h2>
+            <p className="text-lg">{result.prediction}</p>
             <p className="text-sm text-gray-700 mt-1">
               Confidence: {result.confidence}%
             </p>
