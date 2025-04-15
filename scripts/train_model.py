@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 # Load dataset
-df = pd.read_csv("../data/processed/final_training_data.csv")
+df = pd.read_csv("data/processed/final_training_data.csv")
 df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"])
 
 # Label: 1 if home team won

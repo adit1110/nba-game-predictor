@@ -29,7 +29,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/predict', {
+      const response = await fetch('http://localhost:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -121,8 +121,9 @@ function App() {
             <h2 className="text-xl mb-2">Prediction Result</h2>
             <p className="text-lg">{result.winner}</p>
             <p className="text-sm text-gray-700 mt-1">
-              Confidence: {result.confidence}%
-            </p>
+              Confidence: {result.confidence}% that{" "}
+              {result.winner === "Home Wins" ? homeTeam : awayTeam} will win
+              </p>
           </div>
         )}
       </div>
