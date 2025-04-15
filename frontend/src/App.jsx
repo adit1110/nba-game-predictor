@@ -22,100 +22,107 @@ function App() {
     UTA: "1610612762", WAS: "1610612764"
   };
   
-
   const handlePredict = async () => {
     if (!homeTeam || !awayTeam || homeTeam === awayTeam) {
       alert("Please select two different teams.");
       return;
     }
 
-    const response = await fetch('http://localhost:8000/predict', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ home_team: homeTeam, away_team: awayTeam })
-    });
+    try {
+      const response = await fetch('http://localhost:8000/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ home_team: homeTeam, away_team: awayTeam })
+      });
 
-    const data = await response.json();
-    setResult(data);
+      const data = await response.json();
+      setResult(data);
+    } catch (error) {
+      console.error("Prediction error:", error);
+      alert("Error making prediction. See console for details.");
+    }
   };
-
+  
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 flex items-center justify-center px-4">
+    <div className="font-sans min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 flex items-center justify-center px-4">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md text-center">
-        <h1 className="text-3xl font-bold text-orange-600 mb-6 flex justify-center items-center gap-2">
-          🏀 <span>NBA Matchup Predictor</span>
+
+        {/* Logos Above Title */}
+        {homeTeam && awayTeam && (
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="w-16 h-16 flex justify-center items-center">
+              <img
+                src={`https://cdn.nba.com/logos/nba/${teamIdMap[homeTeam]}/global/L/logo.svg`}
+                alt={`${homeTeam} logo`}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <span className="font-title text-gray-500 text-3xl">VS</span>
+            <div className="w-16 h-16 flex justify-center items-center">
+              <img
+                src={`https://cdn.nba.com/logos/nba/${teamIdMap[awayTeam]}/global/L/logo.svg`}
+                alt={`${awayTeam} logo`}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        )}
+        
+        {/* Title */}
+        <h1 className="text-5xl text-orange-600 mb-8 tracking-wider font-title">
+          🏀 NBA Matchup Predictor
         </h1>
 
-        <div className="flex flex-col gap-6 mb-6">
-  {/* Home Team Logo */}
-  {homeTeam && (
-    <div className="flex flex-col items-center">
-      <img
-        src={`https://cdn.nba.com/logos/nba/${teamIdMap[homeTeam]}/global/L/logo.svg`}
-        alt={`${homeTeam} logo`}
-        className="max-h-10 max-w-[48px] w-full object-contain"
-      />
-      <p className="text-sm text-gray-600 mt-1">{homeTeam}</p>
-    </div>
-  )}
+        {/* Home Team Select */}
+        <select
+          className="mt-2 px-4 py-2 w-44 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={homeTeam}
+          onChange={(e) => setHomeTeam(e.target.value)}
+        >
+          <option value="">Home Team</option>
+          {nbaTeams.map((team) => (
+            <option key={team} value={team}>{team}</option>
+          ))}
+        </select>
 
-  {/* Home Select */}
-  <select
-    className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-    value={homeTeam}
-    onChange={(e) => setHomeTeam(e.target.value)}
-  >
-    <option value="">Select Home Team</option>
-    {nbaTeams.map((team) => (
-      <option key={team} value={team}>{team}</option>
-    ))}
-  </select>
+        {/* VS Text */}
+        <div className="text-center text-3xl my-6 font-title tracking-widest text-gray-600">
+          VS
+        </div>
 
-  {/* VS Divider */}
-  <p className="text-xl font-semibold text-gray-500">VS</p>
+        {/* Away Team Select */}
+        <select
+          className="mt-2 px-4 py-2 w-44 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={awayTeam}
+          onChange={(e) => setAwayTeam(e.target.value)}
+        >
+          <option value="">Away Team</option>
+          {nbaTeams.map((team) => (
+            <option key={team} value={team}>{team}</option>
+          ))}
+        </select>
 
-  {/* Away Team Logo */}
-  {awayTeam && (
-    <div className="flex flex-col items-center">
-      <img
-        src={`https://cdn.nba.com/logos/nba/${teamIdMap[awayTeam]}/global/L/logo.svg`}
-        alt={`${awayTeam} logo`}
-        className="max-h-10 max-w-[48px] w-full object-contain"
-      />
-      <p className="text-sm text-gray-600 mt-1">{awayTeam}</p>
-    </div>
-  )}
+        {/* Add a spacer div */}
+        <div className="h-16"></div>
 
-  {/* Away Select */}
-  <select
-    className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-    value={awayTeam}
-    onChange={(e) => setAwayTeam(e.target.value)}
-  >
-    <option value="">Select Away Team</option>
-    {nbaTeams.map((team) => (
-      <option key={team} value={team}>{team}</option>
-    ))}
-  </select>
+        {/* Predict Button - Now completely separate with fixed height spacer above */}
+        <button
+          onClick={handlePredict}
+          className="bg-white hover:bg-gray-100 text-black font-semibold py-3 px-6 rounded-md shadow-md border border-black"
+        >
+          Predict
+        </button>
 
-  {/* Predict Button */}
-  <button
-    className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition-all"
-    onClick={handlePredict}
-  >
-    Predict
-  </button>
-</div>
-
-
-
+        {/* Result Display */}
         {result && (
-          <div className="bg-blue-50 p-4 rounded shadow text-blue-800 font-medium">
+          <div className="bg-blue-50 p-4 rounded shadow text-blue-800 font-medium mt-6">
             <h2 className="text-xl mb-2">Prediction Result</h2>
             <p className="text-lg">{result.winner}</p>
-            <p className="text-sm text-gray-700 mt-1">Confidence: {result.confidence}%</p>
+            <p className="text-sm text-gray-700 mt-1">
+              Confidence: {result.confidence}%
+            </p>
           </div>
         )}
       </div>
