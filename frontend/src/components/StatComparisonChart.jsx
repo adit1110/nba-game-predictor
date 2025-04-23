@@ -10,7 +10,8 @@ function StatComparisonChart({ homeStats, awayStats }) {
   return (
     <div className="mt-8">
       <h2 className="text-lg font-semibold mb-4">📊 Team Stat Comparison</h2>
-      <ResponsiveContainer width="100%" height={300}>
+      <div className='w-full max-w-4xl mx-auto'>
+      <ResponsiveContainer width="95%" height={300}>
         <BarChart data={data}>
           <XAxis dataKey="name" />
           <YAxis />
@@ -20,6 +21,7 @@ function StatComparisonChart({ homeStats, awayStats }) {
           <Bar dataKey="Away" fill="#EF4444" />
         </BarChart>
       </ResponsiveContainer>
+    </div>
     </div>
   );
 }
