@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import StatComparisonChart from './components/StatComparisonChart';
 
 function App() {
   const [homeTeam, setHomeTeam] = useState('');
@@ -140,6 +141,10 @@ function App() {
             </p>
           </div>
         )}
+        
+        {result && result.home_stats && result.away_stats && (
+          <StatComparisonChart homeStats={result.home_stats} awayStats={result.away_stats} />
+      )}
       </div>
     </div>
   );
