@@ -143,7 +143,12 @@ function App() {
         )}
         
         {result && result.home_stats && result.away_stats && (
-          <StatComparisonChart homeStats={result.home_stats} awayStats={result.away_stats} />
+          <StatComparisonChart
+          homeStats={result.home_stats}
+          awayStats={result.away_stats}
+          homeTeam={homeTeam}
+          awayTeam={awayTeam}
+        />        
       )}
       </div>
     </div>

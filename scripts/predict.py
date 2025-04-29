@@ -55,9 +55,6 @@ def predict_matchup(home_team, away_team):
     X = scaler.transform(df)
     prediction = model.predict(X)[0]
     confidence = model.predict_proba(X)[0][prediction] * 100
-
-    print("\n📊 Home team keys:")
-    print(home.keys())
     
     result = {
     "winner": "Home Wins" if prediction == 1 else "Away Wins",
