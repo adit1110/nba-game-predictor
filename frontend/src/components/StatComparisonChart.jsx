@@ -1,11 +1,14 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 function StatComparisonChart({ homeStats, awayStats }) {
-  const data = Object.keys(homeStats).map((stat) => ({
-    name: stat,
-    Home: homeStats[stat],
-    Away: awayStats[stat],
-  }));
+  const statOrder = ["PTS", "REB", "AST", "FG%"];
+
+  const data = statOrder.map((stat) => ({
+  name: stat,
+  Home: homeStats[stat],
+  Away: awayStats[stat],
+}));
+
 
   return (
     <div className="mt-8">

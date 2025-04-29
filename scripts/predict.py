@@ -56,18 +56,21 @@ def predict_matchup(home_team, away_team):
     prediction = model.predict(X)[0]
     confidence = model.predict_proba(X)[0][prediction] * 100
 
+    print("\n📊 Home team keys:")
+    print(home.keys())
+    
     result = {
     "winner": "Home Wins" if prediction == 1 else "Away Wins",
     "confidence": round(confidence, 2),
     "home_stats": {
         "PTS": safe_get(home, "PTS_avg_5"),
-        "REB": safe_get(home, "TRB_avg_season"),
+        "REB": safe_get(home, "REB"),
         "AST": safe_get(home, "AST_avg_5"),
-        "FG%": safe_get(home, "FG_PCT_avg_5")
+        "FG%": safe_get(home, "FG_PCT_avg_5"),
     },
     "away_stats": {
         "PTS": safe_get(away, "PTS_avg_5"),
-        "REB": safe_get(away, "TRB_avg_season"),
+        "REB": safe_get(away, "REB"),
         "AST": safe_get(away, "AST_avg_5"),
         "FG%": safe_get(away, "FG_PCT_avg_5")
     }
