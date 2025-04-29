@@ -65,7 +65,12 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend
+              payload={[
+                { value: "Home", type: "square", id: "home", color: homeColor },
+                { value: "Away", type: "square", id: "away", color: awayColor }
+              ]}
+            />
             <Bar dataKey="Home" fill={homeColor} animationDuration={1000}>
               <LabelList dataKey="Home" position="top" />
             </Bar>
