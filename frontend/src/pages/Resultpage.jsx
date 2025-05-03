@@ -59,7 +59,7 @@ function ResultPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1 container mx-auto p-6">
+      <main className="flex-1 container mx-auto p-6 font-sans">
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-blue-700 mb-2">Prediction Result</h2>
           <p className="text-xl">🏆 {result?.winner === 'Home Wins' ? teamNameMap[homeTeam] : teamNameMap[awayTeam]} will win</p>
@@ -70,10 +70,14 @@ function ResultPage() {
             <div className="w-full md:w-1/2">
               <StatComparisonChart homeStats={result.home_stats} awayStats={result.away_stats} homeTeam={homeTeam} awayTeam={awayTeam} />
             </div>
-            <div className="w-full md:w-1/3 flex items-center justify-center">
-              <img src={`https://cdn.nba.com/logos/nba/${teamIdMap[homeTeam]}/global/L/logo.svg`} alt="Home Logo" className="w-20 h-20 mr-4" />
+            <div className="w-full md:w-1/3 flex items-center justify-center gap-4">
+                <div className="w-16 h-16">
+                <img src={`https://cdn.nba.com/logos/nba/${teamIdMap[homeTeam]}/global/L/logo.svg`} alt="Home Logo" className="w-full h-full object-contain" />
+                </div>
               <span className="text-xl font-semibold">VS</span>
-              <img src={`https://cdn.nba.com/logos/nba/${teamIdMap[awayTeam]}/global/L/logo.svg`} alt="Away Logo" className="w-20 h-20 ml-4" />
+              <div className="w-16 h-16">
+                <img src={`https://cdn.nba.com/logos/nba/${teamIdMap[awayTeam]}/global/L/logo.svg`} alt="Away Logo" className="w-full h-full object-contain" />
+              </div>
             </div>
           </div>
         )}
