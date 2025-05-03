@@ -61,10 +61,12 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
       <h2 className="text-lg mb-4 text-center">📊 Team Stat Comparison</h2>
   
       <div className="w-full max-w-4xl mx-auto">
-        <div className="flex justify-center gap-24 mb-2 text-base">
-          <span className="text-gray-700">{homeTeam}</span>
-          <span className="text-gray-700">{awayTeam}</span>
-        </div>
+      <div className="flex justify-center items-center gap-4 mb-2 text-base">
+        <span className="font-semibold" style={{ color: teamColors[homeTeam] }}>{homeTeam}</span>
+        <span className="text-gray-500">&nbsp;vs&nbsp;</span>
+        <span className="font-semibold" style={{ color: teamColors[awayTeam] }}>{awayTeam}</span>
+      </div>
+
   
         <ResponsiveContainer width="95%" height={300}>
           <BarChart data={data}>
