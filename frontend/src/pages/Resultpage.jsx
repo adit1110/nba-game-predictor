@@ -91,7 +91,7 @@ function ResultPage() {
         <div className="text-center mt-8">
           <button
             onClick={() => navigate('/')}
-            className="text-blue-700 underline hover:text-blue-900 transition"
+            className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition"
           >
             ← Back to Homepage
           </button>

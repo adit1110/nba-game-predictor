@@ -58,8 +58,14 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
 
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-semibold mb-4">📊 Team Stat Comparison</h2>
+      <h2 className="text-lg mb-4 text-center">📊 Team Stat Comparison</h2>
+  
       <div className="w-full max-w-4xl mx-auto">
+        <div className="flex justify-center gap-24 mb-2 text-base">
+          <span className="text-gray-700">{homeTeam}</span>
+          <span className="text-gray-700">{awayTeam}</span>
+        </div>
+  
         <ResponsiveContainer width="95%" height={300}>
           <BarChart data={data}>
             <XAxis dataKey="name" />
@@ -81,7 +87,7 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
         </ResponsiveContainer>
       </div>
     </div>
-  );
+  );  
 }
 
 export default StatComparisonChart;
