@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import StatComparisonChart from '../components/StatComparisonChart';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Select from 'react-select';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -31,6 +32,12 @@ const teamNameMap = {
 };
 
 const nbaTeams = Object.keys(teamNameMap);
+
+const teamOptions = Object.entries(teamNameMap).map(([abbr, name]) => ({
+  value: abbr,
+  label: `${name} (${abbr})`
+}));
+
 
 function ResultPage() {
   const query = useQuery();
@@ -67,19 +74,71 @@ function ResultPage() {
           <h2 className="text-3xl text-blue-700 mb-4">Prediction Result</h2>
 
           <div className="flex justify-center gap-4 mb-4 flex-wrap">
-            <select value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)} className="px-4 py-2 border rounded">
-              <option value="">Select Home Team</option>
-              {nbaTeams.map((team) => (
-                <option key={team} value={team}>{team}</option>
-              ))}
-            </select>
+          <Select
+            options={teamOptions}
+            onChange={(option) => setHomeTeam(option.value)}
+            value={teamOptions.find(opt => opt.value === homeTeam)}
+            placeholder="Home Team"
+            theme={(theme) => ({
+                ...theme,
+                borderRadius: 6,
+                colors: {
+                  ...theme.colors,
+                  primary25: '#dbeafe',  // hover
+                  primary: '#1d4ed8',    // selected
+                },
+              })}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: '#ffffff',
+                  borderColor: '#1d4ed8',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Anton, sans-serif',
+                  boxShadow: 'none',
+                  '&:hover': { borderColor: '#1e40af' }
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: '#1e3a8a',
+                })
+              }}
+              className='w-48'              
+            />
 
-            <select value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)} className="px-4 py-2 border rounded">
-              <option value="">Select Away Team</option>
-              {nbaTeams.map((team) => (
-                <option key={team} value={team}>{team}</option>
-              ))}
-            </select>
+          <Select
+            options={teamOptions}
+            onChange={(option) => setAwayTeam(option.value)}
+            value={teamOptions.find(opt => opt.value === awayTeam)}
+            placeholder="Away Team"
+            theme={(theme) => ({
+                ...theme,
+                borderRadius: 6,
+                colors: {
+                  ...theme.colors,
+                  primary25: '#dbeafe',  // hover
+                  primary: '#1d4ed8',    // selected
+                },
+              })}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: '#ffffff',
+                  borderColor: '#1d4ed8',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Anton, sans-serif',
+                  boxShadow: 'none',
+                  '&:hover': { borderColor: '#1e40af' }
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: '#1e3a8a',
+                })
+              }}
+              className='w-48'              
+            />
 
             <button onClick={handleRecalculate} className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">
               Recalculate
