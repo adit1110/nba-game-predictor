@@ -75,7 +75,7 @@ function ResultPage() {
 
           <div className="flex justify-center gap-4 mb-4 flex-wrap">
           <Select
-            options={teamOptions}
+            options={teamOptions.filter(option => option.value !== awayTeam)}
             onChange={(option) => setHomeTeam(option.value)}
             value={teamOptions.find(opt => opt.value === homeTeam)}
             placeholder="Home Team"
@@ -108,7 +108,7 @@ function ResultPage() {
             />
 
           <Select
-            options={teamOptions}
+            options={teamOptions.filter(option => option.value !== homeTeam)}
             onChange={(option) => setAwayTeam(option.value)}
             value={teamOptions.find(opt => opt.value === awayTeam)}
             placeholder="Away Team"

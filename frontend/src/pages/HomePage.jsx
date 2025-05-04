@@ -41,7 +41,7 @@ function HomePage() {
         <h2 className="text-4xl text-blue-700 mb-6">Pick Two Teams</h2>
           <div className="flex flex-row gap-4 justify-center flex-wrap">
             <Select
-            options={teamOptions}
+            options={teamOptions.filter(option => option.value !== awayTeam)}
             onChange={(option) => setHomeTeam(option.value)}
             value={teamOptions.find(opt => opt.value === homeTeam)}
             placeholder="Home Team"
@@ -74,7 +74,7 @@ function HomePage() {
             />
 
             <Select
-            options={teamOptions}
+            options={teamOptions.filter(option => option.value !== homeTeam)}
             onChange={(option) => setAwayTeam(option.value)}
             value={teamOptions.find(opt => opt.value === awayTeam)}
             placeholder="Away Team"
