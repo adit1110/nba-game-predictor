@@ -56,11 +56,24 @@ function ResultPage() {
     });
     const data = await res.json();
     setResult(data);
+    localStorage.setItem('lastPrediction', JSON.stringify({ home: homeTeam, away: awayTeam }));
   };
 
   useEffect(() => {
     fetchPrediction();
+    const saved = JSON.parse(localStorage.getItem('lastPrediction'));
+  if (saved?.home && saved?.away) {
+    setHomeTeam(saved.home);
+    setAwayTeam(saved.away);
+  }
   }, [homeTeam, awayTeam]);
+
+  useEffect(() => {
+    if (homeTeam && awayTeam && homeTeam !== awayTeam) {
+      fetchPrediction();
+    }
+  }, [homeTeam, awayTeam]);
+  
 
   const handleRecalculate = () => {
     fetchPrediction();
