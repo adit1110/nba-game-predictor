@@ -47,10 +47,14 @@ const teamColors = {
 function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
   const statOrder = ["PTS", "REB", "AST", "FG%"];
 
-  const data = statOrder.map((stat) => ({
-    name: stat,
-    Home: homeStats[stat],
-    Away: awayStats[stat],
+  const scaleStat = (key, val) => {
+    return key === "FG%" ? val * 100 : val;
+  };  
+  
+  const data = statOrder.map((key) => ({
+    name: key,
+    Home: scaleStat(key, homeStats[key]),
+    Away: scaleStat(key, awayStats[key]),
   }));
 
   const homeColor = teamColors[homeTeam] || "#3B82F6"; // default blue
@@ -80,10 +84,10 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
               ]}
             />
             <Bar dataKey="Home" fill={homeColor} animationDuration={1000}>
-              <LabelList dataKey="Home" position="top" />
+              <LabelList dataKey="Home" position="top" content={(p) => <text x={p.x + p.width / 2} y={p.y - 10} fill="#000" fontSize={12} textAnchor="middle">{data[p.index]?.name === "FG%" ? `${p.value.toFixed(1)}%` : p.value}</text>} />
             </Bar>
             <Bar dataKey="Away" fill={awayColor} animationDuration={1000}>
-              <LabelList dataKey="Away" position="top" />
+              <LabelList dataKey="Away" position="top" content={(p) => <text x={p.x + p.width / 2} y={p.y - 10} fill="#000" fontSize={12} textAnchor="middle">{data[p.index]?.name === "FG%" ? `${p.value.toFixed(1)}%` : p.value}</text>} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
