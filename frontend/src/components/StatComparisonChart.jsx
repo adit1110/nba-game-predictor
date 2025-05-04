@@ -75,7 +75,7 @@ function StatComparisonChart({ homeStats, awayStats, homeTeam, awayTeam }) {
         <ResponsiveContainer width="95%" height={300}>
           <BarChart data={data}>
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis domain={[0, (dataMax) => dataMax + 10]} />
             <Tooltip />
             <Legend
               payload={[
