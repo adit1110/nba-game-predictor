@@ -30,42 +30,70 @@ const teamNameMap = {
   UTA: "Utah Jazz", WAS: "Washington Wizards"
 };
 
+const nbaTeams = Object.keys(teamNameMap);
+
 function ResultPage() {
   const query = useQuery();
   const navigate = useNavigate();
-  const homeTeam = query.get('home');
-  const awayTeam = query.get('away');
+
+  const [homeTeam, setHomeTeam] = useState(query.get('home'));
+  const [awayTeam, setAwayTeam] = useState(query.get('away'));
   const [result, setResult] = useState(null);
 
+  const fetchPrediction = async () => {
+    if (!homeTeam || !awayTeam || homeTeam === awayTeam) return;
+    const res = await fetch('http://localhost:5000/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ home_team: homeTeam, away_team: awayTeam })
+    });
+    const data = await res.json();
+    setResult(data);
+  };
+
   useEffect(() => {
-    if (!homeTeam || !awayTeam) {
-      navigate('/');
-      return;
-    }
-
-    const fetchPrediction = async () => {
-      const res = await fetch('http://localhost:5000/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ home_team: homeTeam, away_team: awayTeam })
-      });
-      const data = await res.json();
-      setResult(data);
-    };
-
     fetchPrediction();
   }, [homeTeam, awayTeam]);
+
+  const handleRecalculate = () => {
+    fetchPrediction();
+  };
 
   return (
     <div className="flex flex-col min-h-screen font-[Arial]">
       <Header />
       <main className="flex-1 container mx-auto p-6">
         <div className="text-center mb-6">
-          <h2 className="text-3xl text-blue-700 mb-2">Prediction Result</h2>
-          <p className="text-xl">🏆 {result?.winner === 'Home Wins' ? teamNameMap[homeTeam] : teamNameMap[awayTeam]} will win</p>
-          <p className="text-sm text-gray-600">Confidence: {result?.confidence}%</p>
+          <h2 className="text-3xl text-blue-700 mb-4">Prediction Result</h2>
+
+          <div className="flex justify-center gap-4 mb-4 flex-wrap">
+            <select value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)} className="px-4 py-2 border rounded">
+              <option value="">Select Home Team</option>
+              {nbaTeams.map((team) => (
+                <option key={team} value={team}>{team}</option>
+              ))}
+            </select>
+
+            <select value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)} className="px-4 py-2 border rounded">
+              <option value="">Select Away Team</option>
+              {nbaTeams.map((team) => (
+                <option key={team} value={team}>{team}</option>
+              ))}
+            </select>
+
+            <button onClick={handleRecalculate} className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">
+              Recalculate
+            </button>
+          </div>
+
+          {result?.winner && (
+            <>
+              <p className="text-xl">🏆 {result.winner === 'Home Wins' ? teamNameMap[homeTeam] : teamNameMap[awayTeam]} will win</p>
+              <p className="text-sm text-gray-600">Confidence: {result.confidence}%</p>
+            </>
+          )}
         </div>
-  
+
         {result?.home_stats && result?.away_stats && (
           <div className="flex flex-wrap justify-center gap-6">
             <div className="w-full md:w-1/2">
@@ -87,7 +115,7 @@ function ResultPage() {
             </div>
           </div>
         )}
-  
+
         <div className="text-center mt-8">
           <button
             onClick={() => navigate('/')}
