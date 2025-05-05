@@ -1,6 +1,8 @@
-// frontend/src/pages/PlayoffBracket.jsx
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
+
 
 const roundNames = {
   "West Semis": "Western Conference Semifinals",
@@ -11,6 +13,7 @@ const roundNames = {
 };
 
 export default function PlayoffBracket() {
+  const navigate = useNavigate();
   const [bracket, setBracket] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,6 +60,15 @@ export default function PlayoffBracket() {
           </div>
         </div>
       ))}
+
+      <div className="text-center mt-8">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
+        >
+          ← Back to Homepage
+        </button>
+      </div>
 
       <div className="text-center mt-10">
         <h2 className="text-2xl font-bold text-indigo-600">🏆 Predicted NBA Champion: {bracket.Champion}</h2>

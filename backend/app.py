@@ -79,7 +79,6 @@ def predict():
 
     def extract_stats(team):
         raw = team_stats.get(team, {})
-        print(f"\n{team} keys: {list(raw.keys())}\n")
         return {
             "PTS": raw.get("PTS"),
             "REB": raw.get("TRB"),  # TRB is Total Rebounds

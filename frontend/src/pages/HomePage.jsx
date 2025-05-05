@@ -57,7 +57,7 @@ function HomePage() {
             />
             <button
               onClick={handleSubmit}
-              className="w-32 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition"
+              className="w-48 rounded shadow bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow transition"
             >
               Predict
             </button>
