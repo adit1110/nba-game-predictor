@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
 import pandas as pd
+from scripts.simulate_playoffs import run_simulation
+
 
 # === Setup ===
 app = Flask(__name__)
@@ -137,6 +139,12 @@ def team_view(abbr):
         matchups.append({"opponent": opp, "result": "Win" if pred == 1 else "Loss", "confidence": round(prob * 100, 2)})
 
     return jsonify({"team": abbr, "matchups": sorted(matchups, key=lambda x: -x["confidence"])})
+
+@app.route("/simulate_playoffs", methods=["GET"])
+def simulate_playoffs():
+    bracket = run_simulation()
+    return jsonify(bracket)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
