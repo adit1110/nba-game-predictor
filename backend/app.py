@@ -36,9 +36,13 @@ stats_df = pd.read_csv(csv_path)
 stats_df.columns = [col.replace("FG_PCT", "FG%") for col in stats_df.columns]
 team_stats = {
     row["Team"]: {
-        "PTS": float(row["PTS"]), "AST": float(row["AST"]),
-        "TOV": float(row["TOV"]), "FG%": float(row["FG%"])
-    } for _, row in stats_df.iterrows()
+        "PTS": float(row["PTS"]),
+        "AST": float(row["AST"]),
+        "TOV": float(row["TOV"]),
+        "FG%": float(row["FG%"]),
+        "TRB": float(row["REB"])
+    }
+    for _, row in stats_df.iterrows()
 }
 
 def build_features(home, away, is_home=1):

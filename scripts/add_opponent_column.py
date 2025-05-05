@@ -26,7 +26,7 @@ for file in glob(os.path.join(input_dir, "*_rolling_flags.csv")):
         # Save updated file
         output_path = os.path.join(output_dir, f"{team_abbr}_rolling_flags_opp.csv")
         df.to_csv(output_path, index=False)
-        print(f"✅ Processed {team_abbr}")
+        print(f"Processed {team_abbr}")
 
     except Exception as e:
-        print(f"⚠️ Error processing {team_abbr}: {e}")
+        print(f"Error processing {team_abbr}: {e}")

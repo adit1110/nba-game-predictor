@@ -29,7 +29,7 @@ for file in glob(os.path.join(input_dir, "*_rolling_flags_opp.csv")):
         # Save to enriched folder
         out_path = os.path.join(output_dir, f"{team_abbr}_enriched.csv")
         df.to_csv(out_path, index=False)
-        print(f"✅ Added opponent season stats to {team_abbr}")
+        print(f"Added opponent season stats to {team_abbr}")
 
     except Exception as e:
-        print(f"⚠️ Error with {team_abbr}: {e}")
+        print(f"Error with {team_abbr}: {e}")

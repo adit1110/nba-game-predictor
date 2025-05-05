@@ -24,9 +24,19 @@ full_df = pd.concat(all_data, ignore_index=True)
 # Drop rows with missing values (you can also use imputation later)
 full_df_cleaned = full_df.dropna()
 
+# ✅ Check that all expected stats are present
+required_cols = ["PTS", "AST", "REB", "FG_PCT", "TOV"]
+missing = [col for col in required_cols if col not in full_df_cleaned.columns]
+
+if missing:
+    print(f"Missing expected columns: {missing}")
+else:
+    print("All required columns present.")
+
 # Save to CSV
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 full_df_cleaned.to_csv(output_path, index=False)
 
-print(f"✅ Final dataset saved to: {output_path}")
+print(f"Final dataset saved to: {output_path}")
 print(f"Total rows: {len(full_df_cleaned)}")
+

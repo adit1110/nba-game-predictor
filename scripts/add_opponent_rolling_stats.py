@@ -45,9 +45,9 @@ for file in glob(os.path.join(input_dir, "*_enriched.csv")):
                 df.at[idx, f"opp_{stat}"] = latest_row.get(stat, None)
 
         except Exception as e:
-            print(f"⚠️ Failed for {team_abbr} vs {opp}: {e}")
+            print(f"Failed for {team_abbr} vs {opp}: {e}")
 
     # Save result
     output_path = os.path.join(output_dir, f"{team_abbr}_enriched_opp_rolling.csv")
     df.to_csv(output_path, index=False)
-    print(f"✅ Done: {team_abbr}")
+    print(f"Done: {team_abbr}")

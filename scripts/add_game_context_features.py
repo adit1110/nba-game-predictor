@@ -52,7 +52,7 @@ for file in glob(os.path.join(input_dir, "*_enriched_opp_rolling.csv")):
         # Save updated DataFrame
         output_path = os.path.join(output_dir, f"{team_abbr}_final.csv")
         df.to_csv(output_path, index=False)
-        print(f"✅ Added context features to {team_abbr}")
+        print(f"Added context features to {team_abbr}")
 
     except Exception as e:
-        print(f"⚠️ Error processing {team_abbr}: {e}")
+        print(f"Error processing {team_abbr}: {e}")
