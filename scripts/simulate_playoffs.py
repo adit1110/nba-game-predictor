@@ -1,6 +1,4 @@
-# scripts/simulate_playoffs.py
-
-from predict import predict_matchup
+from scripts.predict import predict_matchup
 
 # Updated 2024–25 Conference Semifinals bracket
 initial_matchups = {

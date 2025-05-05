@@ -1,3 +1,9 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.predict import predict_matchup
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
@@ -8,8 +14,8 @@ from scripts.simulate_playoffs import run_simulation
 # === Setup ===
 app = Flask(__name__)
 CORS(app)
-model = joblib.load("logreg_model.pkl")
-scaler = joblib.load("scaler.pkl")
+model = joblib.load(os.path.join(os.path.dirname(__file__), "logreg_model.pkl"))
+scaler = joblib.load(os.path.join(os.path.dirname(__file__), "scaler.pkl"))
 
 CONFERENCES = {
     "East": {"ATL", "BKN", "BOS", "CHA", "CHI", "CLE", "DET", "IND", "MIA", "MIL", "NYK", "ORL", "PHI", "TOR", "WAS"},
@@ -25,7 +31,8 @@ FEATURE_COLS = [
     "is_home", "win_streak", "rest_days", "back_to_back"
 ]
 
-stats_df = pd.read_csv("../data/processed/final_training_data.csv")
+csv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "processed", "final_training_data.csv"))
+stats_df = pd.read_csv(csv_path)
 stats_df.columns = [col.replace("FG_PCT", "FG%") for col in stats_df.columns]
 team_stats = {
     row["Team"]: {
@@ -58,6 +65,7 @@ def home():
 def predict():
     data = request.get_json()
     home, away = data.get("home_team"), data.get("away_team")
+
     if not home or not away or home not in team_stats or away not in team_stats:
         return jsonify({"error": "Invalid team abbreviation(s)"}), 400
 
@@ -65,7 +73,24 @@ def predict():
     pred = model.predict(scaler.transform(df))[0]
     prob = model.predict_proba(scaler.transform(df))[0][1 if pred == 1 else 0]
 
-    return jsonify({"prediction": "Home Wins" if pred == 1 else "Away Wins", "confidence": round(prob * 100, 2)})
+    def extract_stats(team):
+        raw = team_stats.get(team, {})
+        print(f"\n{team} keys: {list(raw.keys())}\n")
+        return {
+            "PTS": raw.get("PTS"),
+            "REB": raw.get("TRB"),  # TRB is Total Rebounds
+            "AST": raw.get("AST"),
+            "FG%": raw.get("FG%")
+        }
+
+    return jsonify({
+        "winner": "Home Wins" if pred == 1 else "Away Wins",
+        "confidence": round(prob * 100, 2),
+        "home_stats": extract_stats(home),
+        "away_stats": extract_stats(away)
+    })
+
+
 
 @app.route("/simulate-season", methods=["GET"])
 def simulate_season():
@@ -142,8 +167,9 @@ def team_view(abbr):
 
 @app.route("/simulate_playoffs", methods=["GET"])
 def simulate_playoffs():
-    bracket = run_simulation()
-    return jsonify(bracket)
+    from scripts.simulate_playoffs import run_simulation
+    return jsonify(run_simulation())
+
 
 
 if __name__ == "__main__":

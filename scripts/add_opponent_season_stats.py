@@ -23,6 +23,7 @@ for file in glob(os.path.join(input_dir, "*_rolling_flags_opp.csv")):
         df = pd.read_csv(file)
 
         for stat in stat_cols:
+            df[f"{stat}_avg_season"] = season_df.loc[team_abbr, stat]
             df[f"opp_{stat}_avg_season"] = df["opponent_abbr"].map(season_df[stat])
 
         # Save to enriched folder

@@ -8,7 +8,8 @@ model = joblib.load(os.path.join("..", "models", "logreg_model.pkl"))
 scaler = joblib.load(os.path.join("..", "models", "scaler.pkl"))
 
 # Load team averages
-team_data = pd.read_csv(os.path.join("..", "data", "processed", "final_training_data.csv"))
+data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "processed", "final_training_data.csv"))
+team_data = pd.read_csv(data_path)
 team_data.set_index("Team", inplace=True)
 
 def safe_get(series, key):
