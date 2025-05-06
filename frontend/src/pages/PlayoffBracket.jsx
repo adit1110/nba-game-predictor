@@ -2,7 +2,17 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-
+// NBA team ID map for logos
+const teamIdMap = {
+  ATL: "1610612737", BKN: "1610612751", BOS: "1610612738", CHA: "1610612766",
+  CHI: "1610612741", CLE: "1610612739", DAL: "1610612742", DEN: "1610612743",
+  DET: "1610612765", GSW: "1610612744", HOU: "1610612745", IND: "1610612754",
+  LAC: "1610612746", LAL: "1610612747", MEM: "1610612763", MIA: "1610612748",
+  MIL: "1610612749", MIN: "1610612750", NOP: "1610612740", NYK: "1610612752",
+  OKC: "1610612760", ORL: "1610612753", PHI: "1610612755", PHX: "1610612756",
+  POR: "1610612757", SAC: "1610612758", SAS: "1610612759", TOR: "1610612761",
+  UTA: "1610612762", WAS: "1610612764"
+};
 
 const roundNames = {
   "West Semis": "Western Conference Semifinals",
@@ -32,46 +42,90 @@ export default function PlayoffBracket() {
 
   if (loading) return <div className="text-center text-xl mt-10">Loading Playoff Simulation...</div>;
 
+  // Helper to render game card
+  const GameCard = ({ home, away, winner, confidence, index }) => (
+    <motion.div
+      key={`${home}-${away}-${index}`}
+      className="bg-white p-4 rounded-xl border shadow-md hover:shadow-xl flex flex-col items-center text-center"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <div className="flex items-center justify-center gap-3 mb-2">
+        <TeamLogo abbr={away} />
+        <span className="text-lg font-bold text-gray-700">@</span>
+        <TeamLogo abbr={home} />
+      </div>
+      <p className="text-base">
+        🏆 <span className="font-semibold text-green-600">{winner}</span> wins
+      </p>
+      <p className="text-sm text-gray-500">Confidence: {confidence.toFixed(2)}%</p>
+    </motion.div>
+  );
+
+  const TeamLogo = ({ abbr }) => (
+    <img
+      src={`https://cdn.nba.com/logos/nba/${teamIdMap[abbr]}/global/L/logo.svg`}
+      alt={abbr}
+      className="w-10 h-10 object-contain"
+    />
+  );
+
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">🏀 Simulated 2025 NBA Playoffs</h1>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-100 px-4 py-8 font-[Arial]">
+      <h1 className="text-4xl font-extrabold text-center text-blue-800 mb-12">🏀 2025 NBA Playoff Simulation</h1>
 
-      {Object.entries(bracket.Rounds).map(([roundKey, games]) => (
-        <div key={roundKey} className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">{roundNames[roundKey]}</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {games.map(({ home, away, winner, confidence }, index) => (
-              <motion.div
-                key={`${home}-${away}-${index}`}
-                className="border rounded-2xl p-4 shadow-lg bg-white"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <p className="text-lg">
-                  <strong>{away}</strong> @ <strong>{home}</strong>
-                </p>
-                <p>
-                  🏆 Predicted Winner: <span className="font-medium text-green-600">{winner}</span>
-                </p>
-                <p className="text-sm text-gray-500">Confidence: {confidence.toFixed(2)}%</p>
-              </motion.div>
-            ))}
-          </div>
+      <div className="flex flex-wrap justify-evenly gap-8">
+        {/* EAST */}
+        <div className="w-full md:w-5/12 space-y-6">
+          {["East Semis", "East Finals"].map((roundKey) => (
+            <div key={roundKey}>
+              <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
+              <div className="grid grid-cols-1 gap-4">
+                {bracket.Rounds[roundKey]?.map((game, i) => (
+                  <GameCard {...game} index={i} key={i} />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
 
-      <div className="text-center mt-8">
+        {/* WEST */}
+        <div className="w-full md:w-5/12 space-y-6">
+          {["West Semis", "West Finals"].map((roundKey) => (
+            <div key={roundKey}>
+              <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
+              <div className="grid grid-cols-1 gap-4">
+                {bracket.Rounds[roundKey]?.map((game, i) => (
+                  <GameCard {...game} index={i} key={i} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* NBA Finals */}
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold text-center text-purple-800 mb-4 border-b pb-2">NBA Finals</h2>
+        <div className="flex justify-center">
+          {bracket.Rounds["NBA Finals"]?.map((game, i) => (
+            <GameCard {...game} index={i} key={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* Champion */}
+      <div className="text-center mt-12">
+        <h2 className="text-3xl font-bold text-green-700">🏆 NBA Champion: {bracket.Champion}</h2>
+        <p className="text-sm text-gray-600 mt-2">Based on full playoff simulation</p>
+
         <button
           onClick={() => navigate("/")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
+          className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition"
         >
           ← Back to Homepage
         </button>
-      </div>
-
-      <div className="text-center mt-10">
-        <h2 className="text-2xl font-bold text-indigo-600">🏆 Predicted NBA Champion: {bracket.Champion}</h2>
       </div>
     </div>
   );
