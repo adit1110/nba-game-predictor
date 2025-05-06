@@ -77,7 +77,7 @@ export default function PlayoffBracket() {
       <h1 className="text-4xl font-extrabold text-center text-blue-800 mb-12">🏀 2025 NBA Playoff Simulation</h1>
   
       {/* Desktop visual bracket */}
-      <div className="hidden md:block">
+      <div>
         <BracketGrid data={bracket} />
       </div>
   

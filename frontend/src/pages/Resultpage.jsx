@@ -4,6 +4,7 @@ import StatComparisonChart from '../components/StatComparisonChart';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Select from 'react-select';
+import { motion } from 'framer-motion';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -146,12 +147,28 @@ function ResultPage() {
           </div>
 
           {result?.winner && (
-            <>
-              <p className="text-xl">🏆 {result.winner === 'Home Wins' ? teamNameMap[homeTeam] : teamNameMap[awayTeam]} will win</p>
-              <p className="text-sm text-gray-600">Confidence: {result.confidence}%</p>
-            </>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className='flex flex-col items-center gap-3 mt-6'
+            >
+              <h3 className='text-2xl font-bold text-green-700'>🏆 Predicted Winner</h3>
+              <div className="flex items-center gap-3">
+                <img
+                  src={`https://cdn.nba.com/logos/nba/${teamIdMap[result.winner === 'Home Wins' ? homeTeam : awayTeam]}/global/L/logo.svg`}
+                  alt="Winner Logo"
+                  className="w-16 h-16 object-contain"
+                />
+                <span className='text-xl font-semibold'>
+                  {result.winner === 'Home Wins' ? teamNameMap[homeTeam] : teamNameMap[awayTeam]}
+              </span>
+            </div>
+            <p className="text-sm text-gray-600">Confidence: {result.confidence}%</p>
+          </motion.div>
           )}
         </div>
+
 
         {result?.home_stats && result?.away_stats && (
           <div className="flex flex-wrap justify-center gap-6">

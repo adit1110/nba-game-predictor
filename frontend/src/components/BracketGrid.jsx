@@ -19,14 +19,14 @@ const BracketGrid = ({ data }) => {
   const getMatchupBlock = (game, isWinner) => {
     return (
       <div
-        className={`flex items-center gap-2 p-2 rounded-lg shadow-sm transition
+        className={`w-44 flex flex-col items-center gap-2 p-2 rounded-lg shadow-sm transition
           ${isWinner ? "bg-green-100" : "bg-gray-100 opacity-50"} 
           hover:opacity-100 hover:bg-blue-50 relative group`}
       >
         <img
           src={`https://cdn.nba.com/logos/nba/${teamIdMap[isWinner ? game.winner : (game.winner === game.home ? game.away : game.home)]}/global/L/logo.svg`}
           alt="logo"
-          className="w-6 h-6"
+          className="w-10 h-10 object-contain"
         />
         <span className="font-bold">{isWinner ? game.winner : (game.winner === game.home ? game.away : game.home)}</span>
 
@@ -37,7 +37,7 @@ const BracketGrid = ({ data }) => {
     );
   };
 
-  const gridClasses = "grid grid-cols-5 gap-x-4";
+  const gridClasses = "grid grid-cols-5 gap-x-10 items-start";
 
   return (
     <div className="overflow-x-auto px-4 py-8">
