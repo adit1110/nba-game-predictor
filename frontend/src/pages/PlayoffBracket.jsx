@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import BracketGrid from "../components/BracketGrid";
 
 // NBA team ID map for logos
 const teamIdMap = {
@@ -74,52 +75,60 @@ export default function PlayoffBracket() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-blue-100 px-4 py-8 font-[Arial]">
       <h1 className="text-4xl font-extrabold text-center text-blue-800 mb-12">🏀 2025 NBA Playoff Simulation</h1>
-
-      <div className="flex flex-wrap justify-evenly gap-8">
-        {/* EAST */}
-        <div className="w-full md:w-5/12 space-y-6">
-          {["East Semis", "East Finals"].map((roundKey) => (
-            <div key={roundKey}>
-              <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
-              <div className="grid grid-cols-1 gap-4">
-                {bracket.Rounds[roundKey]?.map((game, i) => (
-                  <GameCard {...game} index={i} key={i} />
-                ))}
+  
+      {/* Desktop visual bracket */}
+      <div className="hidden md:block">
+        <BracketGrid data={bracket} />
+      </div>
+  
+      {/* Mobile/tablet fallback layout */}
+      <div className="block md:hidden">
+        <div className="flex flex-wrap justify-evenly gap-8">
+          {/* EAST */}
+          <div className="w-full space-y-6">
+            {["East Semis", "East Finals"].map((roundKey) => (
+              <div key={roundKey}>
+                <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
+                <div className="grid grid-cols-1 gap-4">
+                  {bracket.Rounds[roundKey]?.map((game, i) => (
+                    <GameCard {...game} index={i} key={i} />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* WEST */}
-        <div className="w-full md:w-5/12 space-y-6">
-          {["West Semis", "West Finals"].map((roundKey) => (
-            <div key={roundKey}>
-              <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
-              <div className="grid grid-cols-1 gap-4">
-                {bracket.Rounds[roundKey]?.map((game, i) => (
-                  <GameCard {...game} index={i} key={i} />
-                ))}
+            ))}
+          </div>
+  
+          {/* WEST */}
+          <div className="w-full space-y-6">
+            {["West Semis", "West Finals"].map((roundKey) => (
+              <div key={roundKey}>
+                <h2 className="text-xl font-bold text-center text-indigo-700 border-b pb-1 mb-3">{roundNames[roundKey]}</h2>
+                <div className="grid grid-cols-1 gap-4">
+                  {bracket.Rounds[roundKey]?.map((game, i) => (
+                    <GameCard {...game} index={i} key={i} />
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
+  
+          {/* NBA Finals */}
+          <div className="w-full mt-10">
+            <h2 className="text-2xl font-bold text-center text-purple-800 mb-4 border-b pb-2">NBA Finals</h2>
+            <div className="flex justify-center">
+              {bracket.Rounds["NBA Finals"]?.map((game, i) => (
+                <GameCard {...game} index={i} key={i} />
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
-
-      {/* NBA Finals */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold text-center text-purple-800 mb-4 border-b pb-2">NBA Finals</h2>
-        <div className="flex justify-center">
-          {bracket.Rounds["NBA Finals"]?.map((game, i) => (
-            <GameCard {...game} index={i} key={i} />
-          ))}
-        </div>
-      </div>
-
+  
       {/* Champion */}
       <div className="text-center mt-12">
         <h2 className="text-3xl font-bold text-green-700">🏆 NBA Champion: {bracket.Champion}</h2>
         <p className="text-sm text-gray-600 mt-2">Based on full playoff simulation</p>
-
+  
         <button
           onClick={() => navigate("/")}
           className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition"
@@ -128,5 +137,5 @@ export default function PlayoffBracket() {
         </button>
       </div>
     </div>
-  );
+  );  
 }
