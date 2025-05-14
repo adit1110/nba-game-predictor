@@ -1,19 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Footer = () => (
-  <footer className="bg-blue-900 text-white text-center py-2 mt-12">
-    <p className="text-sm">
-      © {new Date().getFullYear()} Adit Bhimani |{' '}
-      <a
-        href="https://github.com/adit1110"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-400 hover:text-blue-200 visited:text-blue-400 no-underline"
-      >
-        GitHub
-      </a>
-    </p>
-  </footer>
-);
+const Footer = () => {
+  const navigate = useNavigate();
+
+  return (
+    <footer className="bg-blue-900 text-white py-4 mt-12">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4">
+        <div className="text-sm text-center md:text-left">
+          © {new Date().getFullYear()} Adit Bhimani — NBA Predictor
+        </div>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;
