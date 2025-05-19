@@ -28,6 +28,11 @@ export default function PlayoffBracket() {
   const [bracket, setBracket] = useState(null);
   const [loading, setLoading] = useState(true);
 
+const toggleDarkMode = () => {
+  document.body.classList.toggle('dark');
+};
+
+
   useEffect(() => {
     fetch("http://localhost:5000/simulate_playoffs")
       .then((res) => res.json())
@@ -135,6 +140,26 @@ export default function PlayoffBracket() {
         >
           ← Back to Homepage
         </button>
+        <div className="mt-4 flex justify-center gap-4 flex-wrap">
+        <button
+          onClick={() => navigate("/result")}
+          className="bg-blue-700 hover:bg-blue-800 text-white dark:text-white px-4 py-2 rounded transition"
+        >
+        Results
+        </button>
+        <button
+          onClick={() => navigate("/playoffs")}
+          className="bg-blue-700 hover:bg-blue-800 text-white dark:text-white px-4 py-2 rounded transition"
+        >
+        Playoffs
+        </button>
+        <button
+        onClick={toggleDarkMode}
+        className="bg-yellow-400 hover:bg-yellow-500 text-black dark:text-white px-4 py-2 rounded transition"
+        >
+          🌙 Toggle Dark Mode
+        </button>
+      </div>
       </div>
     </div>
   );  
