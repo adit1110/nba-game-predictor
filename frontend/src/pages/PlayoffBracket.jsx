@@ -133,7 +133,7 @@ const toggleDarkMode = () => {
       <div className="text-center mt-12">
         <h2 className="text-3xl font-bold text-green-700">🏆 NBA Champion: {bracket.Champion}</h2>
         <p className="text-sm text-gray-600 mt-2">Based on full playoff simulation</p>
-  
+      <div className="text-center mt-12"></div>
         <button
           onClick={() => navigate("/")}
           className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition"
