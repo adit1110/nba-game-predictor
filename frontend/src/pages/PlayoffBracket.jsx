@@ -47,7 +47,7 @@ export default function PlayoffBracket() {
   const GameCard = ({ home, away, winner, confidence, index }) => (
     <motion.div
       key={`${home}-${away}-${index}`}
-      className="bg-white p-4 rounded-xl border shadow-md hover:shadow-xl flex flex-col items-center text-center"
+      className="bg-white p-4 rounded-xl shadow-md hover:shadow-xl flex flex-col items-center text-center"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
