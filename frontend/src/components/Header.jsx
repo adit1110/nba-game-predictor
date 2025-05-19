@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const navigate = useNavigate();
 
+const toggleDarkMode = () => {
+  document.body.classList.toggle('dark');
+}
+
   return (
     <header className="bg-blue-900 text-white shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Left: NBA Logo + Title */}
         <div className="flex items-center space-x-3">
           <img
@@ -39,6 +43,12 @@ const Header = () => {
           >
             Playoffs
           </button>
+          <button
+            onClick={toggleDarkMode}
+            className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded transition"
+          >
+            🌙 Dark Mode
+          </button>
         </div>
       </div>
 
@@ -62,6 +72,12 @@ const Header = () => {
         >
           Playoffs
         </button>
+        <button
+            onClick={toggleDarkMode}
+            className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded transition"
+          >
+            🌙 Dark Mode
+          </button>
       </div>
     </header>
   );

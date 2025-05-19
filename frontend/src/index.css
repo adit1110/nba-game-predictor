@@ -16,3 +16,32 @@ h1, h2, h3 {
   font-family: 'Anton', sans-serif;
   letter-spacing: 0.5px;
 }
+
+body.dark {
+  background: linear-gradient(to bottom right, #0f172a, #1e293b);
+  color: #f8fafc;
+}
+
+body.dark h1, 
+body.dark h2, 
+body.dark h3 {
+  color: #facc15 !important;
+}
+
+body.dark .bg-blue-900 {
+  background-color: #1e293b !important;
+}
+body.dark .bg-blue-700 {
+  background-color: #334155 !important;
+}
+body.dark .bg-purple-600 {
+  background-color: #6b21a8 !important;
+}
+
+body.dark .text-blue-700 {
+  color: #facc15 !important;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

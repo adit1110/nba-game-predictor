@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer className="bg-blue-900 text-white py-4 mt-12">
+  <footer className="bg-blue-900 text-white py-6 px-6 mt-12">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4">
       <div className="text-sm text-center md:text-left">
         © {new Date().getFullYear()} Adit Bhimani — NBA Predictor
@@ -12,7 +12,7 @@ const Footer = () => (
           href="https://github.com/adit1110"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-300 hover:text-blue-100 no-underline text-sm"
+          className="text-blue-300 dark:text-yellow-400 hover:text-blue-100 no-underline text-sm"
         >
           GitHub
         </a>

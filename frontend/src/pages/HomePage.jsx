@@ -63,7 +63,7 @@ function HomePage() {
             </button>
             <button
               onClick={() => navigate('/playoffs')}
-              className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+              className="mt-4 bg-purple-600 dark:bg-purple-500 dark:hover:bg-purple-400 hover:bg-purple-700 text-white px-4 py-2 rounded transition"
             >
               Simulate Playoffs →
             </button>
