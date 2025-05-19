@@ -90,21 +90,34 @@ function ResultPage() {
                 },
               })}
               styles={{
-                control: (base) => ({
-                  ...base,
-                  backgroundColor: '#ffffff',
-                  borderColor: '#1d4ed8',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Anton, sans-serif',
-                  boxShadow: 'none',
-                  '&:hover': { borderColor: '#1e40af' }
-                }),
-                singleValue: (base) => ({
-                  ...base,
-                  color: '#1e3a8a',
-                })
-              }}
+  control: (base) => ({
+    ...base,
+    backgroundColor: 'white',
+    borderColor: '#1d4ed8',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    fontFamily: 'Anton, sans-serif',
+    boxShadow: 'none',
+    '&:hover': { borderColor: '#1e40af' }
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: '#1e3a8a',
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: document.body.classList.contains('dark') ? '#1e293b' : 'white',
+    color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+  }),
+  option: (base, { isFocused }) => ({
+    ...base,
+    backgroundColor: isFocused
+      ? (document.body.classList.contains('dark') ? '#334155' : '#dbeafe')
+      : 'transparent',
+    color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+  }),
+}}
+
               className='w-48'              
             />
 
@@ -123,21 +136,34 @@ function ResultPage() {
                 },
               })}
               styles={{
-                control: (base) => ({
-                  ...base,
-                  backgroundColor: '#ffffff',
-                  borderColor: '#1d4ed8',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Anton, sans-serif',
-                  boxShadow: 'none',
-                  '&:hover': { borderColor: '#1e40af' }
-                }),
-                singleValue: (base) => ({
-                  ...base,
-                  color: '#1e3a8a',
-                })
-              }}
+  control: (base) => ({
+    ...base,
+    backgroundColor: 'white',
+    borderColor: '#1d4ed8',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    fontFamily: 'Anton, sans-serif',
+    boxShadow: 'none',
+    '&:hover': { borderColor: '#1e40af' }
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: '#1e3a8a',
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: document.body.classList.contains('dark') ? '#1e293b' : 'white',
+    color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+  }),
+  option: (base, { isFocused }) => ({
+    ...base,
+    backgroundColor: isFocused
+      ? (document.body.classList.contains('dark') ? '#334155' : '#dbeafe')
+      : 'transparent',
+    color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+  }),
+}}
+
               className='w-48'              
             />
 

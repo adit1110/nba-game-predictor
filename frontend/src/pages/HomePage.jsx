@@ -41,33 +41,87 @@ function HomePage() {
           <h2 className="text-4xl text-blue-700 mb-6">Pick Two Teams</h2>
 
           <div className="flex flex-row gap-4 justify-center flex-wrap">
-            <Select
-              options={teamOptions.filter(option => option.value !== awayTeam)}
-              onChange={(option) => setHomeTeam(option.value)}
-              value={teamOptions.find(opt => opt.value === homeTeam)}
-              placeholder="Home Team"
-              className="w-48"
-            />
-            <Select
-              options={teamOptions.filter(option => option.value !== homeTeam)}
-              onChange={(option) => setAwayTeam(option.value)}
-              value={teamOptions.find(opt => opt.value === awayTeam)}
-              placeholder="Away Team"
-              className="w-48"
-            />
-            <button
-              onClick={handleSubmit}
-              className="w-48 rounded shadow bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow transition"
-            >
-              Predict
-            </button>
-            <button
-              onClick={() => navigate('/playoffs')}
-              className="mt-4 bg-purple-600 dark:bg-purple-500 dark:hover:bg-purple-400 hover:bg-purple-700 text-white px-4 py-2 rounded transition"
-            >
-              Simulate Playoffs →
-            </button>
-          </div>
+  <Select
+    options={teamOptions.filter(option => option.value !== awayTeam)}
+    onChange={(option) => setHomeTeam(option.value)}
+    value={teamOptions.find(opt => opt.value === homeTeam)}
+    placeholder="Home Team"
+    className="w-48"
+    styles={{
+      control: (base) => ({
+        ...base,
+        backgroundColor: 'white',
+        borderColor: '#1d4ed8',
+        fontWeight: '600',
+        fontFamily: 'Anton, sans-serif',
+      }),
+      singleValue: (base) => ({
+        ...base,
+        color: '#1e3a8a',
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: document.body.classList.contains('dark') ? '#1e293b' : 'white',
+        color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+      }),
+      option: (base, { isFocused }) => ({
+        ...base,
+        backgroundColor: isFocused
+          ? (document.body.classList.contains('dark') ? '#334155' : '#dbeafe')
+          : 'transparent',
+        color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+      }),
+    }}
+  />
+
+  <Select
+    options={teamOptions.filter(option => option.value !== homeTeam)}
+    onChange={(option) => setAwayTeam(option.value)}
+    value={teamOptions.find(opt => opt.value === awayTeam)}
+    placeholder="Away Team"
+    className="w-48"
+    styles={{
+      control: (base) => ({
+        ...base,
+        backgroundColor: 'white',
+        borderColor: '#1d4ed8',
+        fontWeight: '600',
+        fontFamily: 'Anton, sans-serif',
+      }),
+      singleValue: (base) => ({
+        ...base,
+        color: '#1e3a8a',
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: document.body.classList.contains('dark') ? '#1e293b' : 'white',
+        color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+      }),
+      option: (base, { isFocused }) => ({
+        ...base,
+        backgroundColor: isFocused
+          ? (document.body.classList.contains('dark') ? '#334155' : '#dbeafe')
+          : 'transparent',
+        color: document.body.classList.contains('dark') ? '#f8fafc' : 'black',
+      }),
+    }}
+  />
+
+  <button
+    onClick={handleSubmit}
+    className="w-48 rounded shadow bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 transition"
+  >
+    Predict
+  </button>
+
+  <button
+    onClick={() => navigate('/playoffs')}
+    className="mt-4 bg-purple-600 dark:bg-purple-500 dark:hover:bg-purple-400 hover:bg-purple-700 text-white px-4 py-2 rounded transition"
+  >
+    Simulate Playoffs →
+  </button>
+</div>
+
         </div>
       </main>
       <Footer />
