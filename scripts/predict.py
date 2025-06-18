@@ -7,8 +7,8 @@ import os
 model = joblib.load(os.path.join("..", "models", "logreg_model.pkl"))
 scaler = joblib.load(os.path.join("..", "models", "scaler.pkl"))
 
-# Load team averages
-data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "processed", "final_training_data.csv"))
+# Load enhanced dataset with player-level features
+data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "processed", "final_training_data_with_players.csv"))
 team_data = pd.read_csv(data_path)
 team_data.set_index("Team", inplace=True)
 
@@ -23,7 +23,6 @@ def predict_matchup(home_team, away_team):
     except KeyError as e:
         print(f"❌ Team abbreviation not found: {e}")
         return None
-
 
     features = {
         "PTS_avg_3": safe_get(home, "PTS_avg_3"),
@@ -50,29 +49,35 @@ def predict_matchup(home_team, away_team):
         "win_streak": safe_get(home, "win_streak"),
         "rest_days": safe_get(home, "rest_days"),
         "back_to_back": safe_get(home, "back_to_back"),
+        "top3_avg_pts": safe_get(home, "top3_avg_pts"),
+        "top3_avg_ast": safe_get(home, "top3_avg_ast"),
+        "missing_top_player": safe_get(home, "missing_top_player")
     }
 
     df = pd.DataFrame([features])
     X = scaler.transform(df)
     prediction = model.predict(X)[0]
     confidence = model.predict_proba(X)[0][prediction] * 100
-    
+
     result = {
-    "winner": "Home Wins" if prediction == 1 else "Away Wins",
-    "confidence": round(confidence, 2),
-    "home_stats": {
-        "PTS": safe_get(home, "PTS_avg_5"),
-        "REB": safe_get(home, "REB"),
-        "AST": safe_get(home, "AST_avg_5"),
-        "FG%": safe_get(home, "FG_PCT_avg_5"),
-    },
-    "away_stats": {
-        "PTS": safe_get(away, "PTS_avg_5"),
-        "REB": safe_get(away, "REB"),
-        "AST": safe_get(away, "AST_avg_5"),
-        "FG%": safe_get(away, "FG_PCT_avg_5")
+        "winner": "Home Wins" if prediction == 1 else "Away Wins",
+        "confidence": round(confidence, 2),
+        "home_stats": {
+            "PTS": safe_get(home, "PTS_avg_5"),
+            "REB": safe_get(home, "REB"),
+            "AST": safe_get(home, "AST_avg_5"),
+            "FG%": safe_get(home, "FG_PCT_avg_5"),
+            "Top3 PTS": safe_get(home, "top3_avg_pts"),
+            "Top3 AST": safe_get(home, "top3_avg_ast"),
+            "Injury Flag": bool(safe_get(home, "missing_top_player"))
+        },
+        "away_stats": {
+            "PTS": safe_get(away, "PTS_avg_5"),
+            "REB": safe_get(away, "REB"),
+            "AST": safe_get(away, "AST_avg_5"),
+            "FG%": safe_get(away, "FG_PCT_avg_5")
+        }
     }
-}
     return result
 
 if __name__ == "__main__":
@@ -80,4 +85,4 @@ if __name__ == "__main__":
     away = input("Enter Away Team Abbreviation (e.g. PHI): ").strip().upper()
     result = predict_matchup(home, away)
     if result:
-        print(f"🏀 Prediction: {result['winner']} ({result['confidence']}% confidence)")
+        print(f"\n🏀 Prediction: {result['winner']} ({result['confidence']}% confidence)")
