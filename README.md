@@ -30,7 +30,7 @@ NBA-Predictor/
 
 ### 1. Clone the Repository
 
-git clone https://github.com/yourusername/NBA-Predictor.git  
+git clone https://github.com/adit1110/NBA-Predictor.git  
 cd NBA-Predictor
 
 ### 2. Backend Setup (Flask API)
