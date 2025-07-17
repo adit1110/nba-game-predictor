@@ -1,4 +1,4 @@
-*.pkl
+# *.pkl
 *__pycache__/
 *.env
 *.pdf
