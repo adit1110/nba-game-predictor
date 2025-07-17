@@ -34,7 +34,7 @@ const toggleDarkMode = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:5000/simulate_playoffs")
+    fetch("https://nba-game-predictor-trh9.onrender.com/simulate_playoffs")
       .then((res) => res.json())
       .then((data) => {
         setBracket(data);
