@@ -50,7 +50,7 @@ function ResultPage() {
 
   const fetchPrediction = async () => {
     if (!homeTeam || !awayTeam || homeTeam === awayTeam) return;
-    const res = await fetch('http://localhost:5000/predict', {
+    const res = await fetch('https://nba-game-predictor-trh9.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ home_team: homeTeam, away_team: awayTeam })
