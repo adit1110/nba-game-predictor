@@ -10,6 +10,8 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
+// Trigger Vercel cache purge
+
 const teamIdMap = {
   ATL: "1610612737", BKN: "1610612751", BOS: "1610612738", CHA: "1610612766",
   CHI: "1610612741", CLE: "1610612739", DAL: "1610612742", DEN: "1610612743",
