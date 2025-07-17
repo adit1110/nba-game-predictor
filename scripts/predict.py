@@ -3,9 +3,12 @@ import numpy as np
 import joblib
 import os
 
-# Load model and scaler
-model = joblib.load(os.path.join("..", "models", "logreg_model.pkl"))
-scaler = joblib.load(os.path.join("..", "models", "scaler.pkl"))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+model_path = os.path.join(base_dir, "models", "logreg_model.pkl")
+scaler_path = os.path.join(base_dir, "models", "scaler.pkl")
+
+model = joblib.load(model_path)
+scaler = joblib.load(scaler_path)
 
 # Load enhanced dataset with player-level features
 data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "processed", "final_training_data_with_players.csv"))
